@@ -28,11 +28,11 @@ export default function Footer() {
               Telegram
             </a>
             <a
-              href="mailto:hello@aiert.ge"
+              href="mailto:sandro@aiert.xyz"
               className="flex items-center gap-2 text-sm text-text-muted hover:text-coral transition-colors"
             >
               <Mail size={15} />
-              hello@aiert.ge
+              sandro@aiert.xyz
             </a>
           </div>
         </div>

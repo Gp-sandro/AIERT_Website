@@ -1,16 +1,75 @@
-# React + Vite
+# AIERT — Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+One-pager landing site for AIERT, an AI automation agency based in Tbilisi, Georgia.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React 19** + **Vite 7**
+- **Tailwind CSS v4**
+- **Framer Motion** — scroll-triggered animations
+- **Lucide React** — icons
 
-## React Compiler
+## Getting Started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+npm install
+npm run dev
+```
 
-## Expanding the ESLint configuration
+Opens at `http://localhost:5173`.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Build & Deploy
+
+```bash
+npm run build
+```
+
+Static output goes to `dist/`. Deploy to Vercel, Netlify, or any static host.
+
+### Vercel (recommended)
+
+```bash
+npx vercel deploy dist --prod
+```
+
+Or connect the GitHub repo — Vercel auto-deploys on push.
+
+## Email Collection
+
+The contact form sends leads to Google Sheets via Apps Script.
+
+### Setup
+
+1. Open the target Google Sheet
+2. Go to **Extensions > Apps Script**
+3. Paste the code from `google-apps-script.js`
+4. Deploy as **Web app** (Execute as: Me, Access: Anyone)
+5. Copy the deployment URL into `src/config.js`:
+
+```js
+export const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/YOUR_ID/exec'
+```
+
+Leads are written to a **"Leads"** tab with columns: Email, Name, Source, Date, Status.
+
+## Project Structure
+
+```
+src/
+├── components/
+│   ├── Navbar.jsx      — Fixed nav, mobile menu
+│   ├── Hero.jsx        — Headline, CTAs, stats
+│   ├── About.jsx       — Product section, Telegram chat mock
+│   ├── Services.jsx    — Service cards grid
+│   ├── Process.jsx     — 3-step flow
+│   ├── CTA.jsx         — Email collection form
+│   └── Footer.jsx      — Contact links
+├── config.js           — Google Script URL
+├── index.css           — Tailwind theme
+├── main.jsx            — Entry point
+└── App.jsx             — Root component
+```
+
+## Contact
+
+sandro@aiert.xyz
