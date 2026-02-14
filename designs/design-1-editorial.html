@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIERT — AI Automation Agency | Tbilisi, Georgia</title>
+  <link rel="icon" href="../public/logo.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Work+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       RESET & BASE
+       ======================================== */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-deep: #0A0A0F;
+      --bg-elevated: #111118;
+      --bg-surface: #1A1A24;
+      --coral: #FF6B6B;
+      --coral-dim: #ff6b6b33;
+      --coral-glow: #ff6b6b18;
+      --cream: #F5F0EB;
+      --cream-dim: #F5F0EB99;
+      --cream-faint: #F5F0EB44;
+      --white: #FFFFFF;
+      --white-dim: #FFFFFF88;
+      --serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+      --sans: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --max-reading: 740px;
+      --max-wide: 1100px;
+      --section-gap: clamp(100px, 12vw, 180px);
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background: var(--bg-deep);
+      color: var(--cream);
+      font-family: var(--sans);
+      font-weight: 400;
+      line-height: 1.7;
+      font-size: 17px;
+      overflow-x: hidden;
+    }
+
+    ::selection {
+      background: var(--coral);
+      color: var(--bg-deep);
+    }
+
+    a {
+      color: var(--coral);
+      text-decoration: none;
+      transition: opacity 0.3s ease;
+    }
+    a:hover {
+      opacity: 0.8;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    /* ========================================
+       SCROLL REVEAL ANIMATIONS
+       ======================================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.12s; }
+    .reveal-delay-2 { transition-delay: 0.24s; }
+    .reveal-delay-3 { transition-delay: 0.36s; }
+    .reveal-delay-4 { transition-delay: 0.48s; }
+
+    /* Stagger children */
+    .reveal-stagger .reveal-child {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal-stagger.visible .reveal-child:nth-child(1) { transition-delay: 0.05s; }
+    .reveal-stagger.visible .reveal-child:nth-child(2) { transition-delay: 0.15s; }
+    .reveal-stagger.visible .reveal-child:nth-child(3) { transition-delay: 0.25s; }
+    .reveal-stagger.visible .reveal-child:nth-child(4) { transition-delay: 0.35s; }
+    .reveal-stagger.visible .reveal-child:nth-child(5) { transition-delay: 0.45s; }
+    .reveal-stagger.visible .reveal-child:nth-child(6) { transition-delay: 0.55s; }
+    .reveal-stagger.visible .reveal-child {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Line grow animation */
+    .line-grow {
+      width: 0;
+      transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .line-grow.visible {
+      width: 80px;
+    }
+
+    /* ========================================
+       LAYOUT UTILITIES
+       ======================================== */
+    .container {
+      width: 100%;
+      max-width: var(--max-reading);
+      margin: 0 auto;
+      padding: 0 clamp(24px, 5vw, 48px);
+    }
+    .container--wide {
+      max-width: var(--max-wide);
+    }
+
+    .section {
+      padding: var(--section-gap) 0;
+      position: relative;
+    }
+
+    /* ========================================
+       NAVIGATION
+       ======================================== */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 24px 0;
+      transition: background 0.4s ease, padding 0.4s ease, backdrop-filter 0.4s ease;
+    }
+    .nav.scrolled {
+      background: #0A0A0Fdd;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 16px 0;
+    }
+    .nav__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: var(--max-wide);
+      margin: 0 auto;
+      padding: 0 clamp(24px, 5vw, 48px);
+    }
+    .nav__logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .nav__logo img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+    .nav__logo-text {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: 0.08em;
+      color: var(--white);
+    }
+    .nav__cta {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 14px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--coral);
+      border: 1px solid var(--coral-dim);
+      padding: 10px 28px;
+      border-radius: 100px;
+      transition: all 0.3s ease;
+    }
+    .nav__cta:hover {
+      background: var(--coral);
+      color: var(--bg-deep);
+      opacity: 1;
+    }
+
+    /* ========================================
+       HERO
+       ======================================== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 120px;
+      padding-bottom: 80px;
+      position: relative;
+    }
+
+    /* Ambient glow behind hero */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -20%;
+      right: -10%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, var(--coral-glow) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .hero__label {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 13px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--coral);
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .hero__label::before {
+      content: '';
+      display: inline-block;
+      width: 24px;
+      height: 1px;
+      background: var(--coral);
+    }
+
+    .hero__headline {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(48px, 7.5vw, 96px);
+      line-height: 1.05;
+      color: var(--white);
+      margin-bottom: 36px;
+      max-width: 900px;
+    }
+    .hero__headline em {
+      font-style: italic;
+      color: var(--coral);
+    }
+
+    .hero__subtext {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: clamp(17px, 2vw, 20px);
+      line-height: 1.8;
+      color: var(--cream-dim);
+      max-width: 520px;
+      margin-bottom: 48px;
+    }
+
+    .hero__cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--sans);
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: 0.03em;
+      color: var(--bg-deep);
+      background: var(--coral);
+      padding: 16px 36px;
+      border-radius: 100px;
+      transition: all 0.3s ease;
+    }
+    .hero__cta:hover {
+      opacity: 1;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px var(--coral-dim);
+    }
+    .hero__cta-arrow {
+      transition: transform 0.3s ease;
+    }
+    .hero__cta:hover .hero__cta-arrow {
+      transform: translateX(4px);
+    }
+
+    .hero__scroll-hint {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--cream-faint);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      animation: float 3s ease-in-out infinite;
+    }
+    .hero__scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--cream-faint), transparent);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ========================================
+       EDITORIAL BLOCK — PROBLEM
+       ======================================== */
+    .editorial {
+      position: relative;
+    }
+
+    .editorial__kicker {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--coral);
+      margin-bottom: 24px;
+    }
+
+    .editorial__heading {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(32px, 5vw, 54px);
+      line-height: 1.2;
+      color: var(--white);
+      margin-bottom: 40px;
+    }
+
+    .editorial__body {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: clamp(17px, 1.8vw, 19px);
+      line-height: 1.9;
+      color: var(--cream-dim);
+    }
+    .editorial__body p + p {
+      margin-top: 28px;
+    }
+    .editorial__body strong {
+      color: var(--cream);
+      font-weight: 600;
+    }
+
+    .editorial__accent-line {
+      height: 1px;
+      background: linear-gradient(to right, var(--coral), transparent);
+      margin: 48px 0;
+    }
+
+    .editorial__pullquote {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: clamp(24px, 3.5vw, 36px);
+      line-height: 1.4;
+      color: var(--white);
+      padding-left: 32px;
+      border-left: 2px solid var(--coral);
+      margin: 56px 0;
+    }
+
+    /* ========================================
+       TERMINAL / BOT DEMO
+       ======================================== */
+    .demo-section {
+      position: relative;
+    }
+
+    .demo-section::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 800px;
+      height: 500px;
+      background: radial-gradient(ellipse, var(--coral-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .terminal {
+      background: var(--bg-elevated);
+      border: 1px solid #ffffff0a;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px #ffffff06 inset;
+      max-width: 680px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .terminal__bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 16px 20px;
+      background: #ffffff05;
+      border-bottom: 1px solid #ffffff08;
+    }
+    .terminal__dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    .terminal__dot--red { background: #ff5f57; }
+    .terminal__dot--yellow { background: #febc2e; }
+    .terminal__dot--green { background: #28c840; }
+    .terminal__bar-title {
+      margin-left: auto;
+      font-size: 12px;
+      color: var(--white-dim);
+      font-family: var(--sans);
+      letter-spacing: 0.05em;
+    }
+
+    .terminal__body {
+      padding: 28px 24px;
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+      font-size: 14px;
+      line-height: 1.9;
+    }
+
+    .chat {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .chat__msg {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .chat__avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      font-family: var(--sans);
+    }
+    .chat__avatar--user {
+      background: #2a2a3a;
+      color: var(--cream-dim);
+    }
+    .chat__avatar--bot {
+      background: var(--coral);
+      color: var(--bg-deep);
+    }
+
+    .chat__bubble {
+      flex: 1;
+    }
+    .chat__name {
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .chat__name--user { color: var(--cream-faint); }
+    .chat__name--bot { color: var(--coral); }
+
+    .chat__text {
+      color: var(--cream-dim);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .chat__text code {
+      background: #ffffff0a;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+
+    .chat__listing {
+      background: #ffffff06;
+      border: 1px solid #ffffff0a;
+      border-radius: 10px;
+      padding: 16px;
+      margin-top: 10px;
+    }
+    .chat__listing-title {
+      font-family: var(--sans);
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+    .chat__listing-meta {
+      font-family: var(--sans);
+      font-size: 12px;
+      color: var(--cream-faint);
+      margin-bottom: 8px;
+    }
+    .chat__listing-price {
+      font-family: var(--sans);
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--coral);
+    }
+
+    .chat__status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--sans);
+      font-size: 12px;
+      color: #28c840;
+      margin-top: 8px;
+    }
+    .chat__status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #28c840;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* Typing indicator */
+    .chat__typing {
+      display: flex;
+      gap: 4px;
+      padding: 8px 0;
+    }
+    .chat__typing-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--cream-faint);
+      animation: typing-bounce 1.4s ease-in-out infinite;
+    }
+    .chat__typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .chat__typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes typing-bounce {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+      30% { transform: translateY(-6px); opacity: 1; }
+    }
+
+    /* ========================================
+       SERVICES — EDITORIAL LIST
+       ======================================== */
+    .services-list {
+      list-style: none;
+      counter-reset: service-counter;
+    }
+
+    .service-item {
+      padding: 48px 0;
+      border-bottom: 1px solid #ffffff08;
+      counter-increment: service-counter;
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: 0 24px;
+      align-items: start;
+    }
+    .service-item:first-child {
+      border-top: 1px solid #ffffff08;
+    }
+
+    .service-item__number {
+      font-family: var(--serif);
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--coral);
+      padding-top: 4px;
+    }
+    .service-item__number::before {
+      content: counter(service-counter, decimal-leading-zero);
+    }
+
+    .service-item__content {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .service-item__title {
+      font-family: var(--serif);
+      font-size: clamp(24px, 3vw, 32px);
+      font-weight: 500;
+      color: var(--white);
+      line-height: 1.2;
+    }
+
+    .service-item__live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #28c840;
+      background: #28c84015;
+      border: 1px solid #28c84030;
+      padding: 4px 12px;
+      border-radius: 100px;
+      width: fit-content;
+    }
+    .service-item__live-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #28c840;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    .service-item__desc {
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--cream-dim);
+      max-width: 560px;
+    }
+
+    /* ========================================
+       HOW IT WORKS — EDITORIAL STEPS
+       ======================================== */
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 72px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    .step:nth-child(even) {
+      direction: rtl;
+    }
+    .step:nth-child(even) > * {
+      direction: ltr;
+    }
+
+    .step__number {
+      font-family: var(--serif);
+      font-size: clamp(80px, 10vw, 140px);
+      font-weight: 300;
+      color: #ffffff06;
+      line-height: 1;
+      position: absolute;
+      top: -20px;
+      left: -10px;
+    }
+
+    .step__content {
+      position: relative;
+    }
+
+    .step__label {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 12px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--coral);
+      margin-bottom: 16px;
+    }
+
+    .step__title {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(28px, 3.5vw, 40px);
+      line-height: 1.2;
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+
+    .step__desc {
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--cream-dim);
+    }
+
+    .step__visual {
+      background: var(--bg-elevated);
+      border: 1px solid #ffffff08;
+      border-radius: 16px;
+      padding: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 220px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .step__visual-icon {
+      font-size: 64px;
+      opacity: 0.15;
+    }
+
+    /* Visual cards for steps */
+    .step__visual-content {
+      text-align: center;
+    }
+    .step__visual-emoji {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+    .step__visual-text {
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--cream-faint);
+      line-height: 1.6;
+    }
+
+    /* Process flow dots */
+    .step__visual-flow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .step__visual-flow-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--coral-dim);
+    }
+    .step__visual-flow-dot.active {
+      background: var(--coral);
+      box-shadow: 0 0 12px var(--coral-dim);
+    }
+    .step__visual-flow-line {
+      flex: 1;
+      height: 1px;
+      background: #ffffff15;
+    }
+
+    /* ========================================
+       STATS — EDITORIAL
+       ======================================== */
+    .stats-editorial {
+      text-align: center;
+    }
+
+    .stat-line {
+      font-family: var(--serif);
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 300;
+      line-height: 1.5;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+
+    .stat-line__number {
+      color: var(--coral);
+      font-weight: 500;
+    }
+
+    .stat-line__dim {
+      color: var(--cream-dim);
+    }
+
+    /* ========================================
+       EMAIL CTA
+       ======================================== */
+    .cta-section {
+      text-align: center;
+      position: relative;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, var(--coral-glow) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta__heading {
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(36px, 5vw, 60px);
+      line-height: 1.15;
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+    .cta__heading em {
+      font-style: italic;
+      color: var(--coral);
+    }
+
+    .cta__subtext {
+      font-family: var(--sans);
+      font-size: 17px;
+      color: var(--cream-dim);
+      margin-bottom: 40px;
+      max-width: 440px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.7;
+    }
+
+    .cta__form {
+      display: flex;
+      gap: 0;
+      max-width: 480px;
+      margin: 0 auto;
+      border-radius: 100px;
+      overflow: hidden;
+      border: 1px solid #ffffff12;
+      background: var(--bg-elevated);
+      transition: border-color 0.3s ease;
+    }
+    .cta__form:focus-within {
+      border-color: var(--coral-dim);
+    }
+
+    .cta__input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      padding: 16px 24px;
+      font-family: var(--sans);
+      font-size: 15px;
+      color: var(--cream);
+    }
+    .cta__input::placeholder {
+      color: var(--cream-faint);
+    }
+
+    .cta__submit {
+      background: var(--coral);
+      border: none;
+      color: var(--bg-deep);
+      font-family: var(--sans);
+      font-weight: 600;
+      font-size: 14px;
+      padding: 16px 32px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+    .cta__submit:hover {
+      background: #ff8585;
+    }
+
+    .cta__note {
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--cream-faint);
+      margin-top: 16px;
+    }
+
+    /* ========================================
+       FOOTER
+       ======================================== */
+    .footer {
+      padding: 60px 0 40px;
+      border-top: 1px solid #ffffff08;
+    }
+
+    .footer__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .footer__brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .footer__brand img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+    }
+    .footer__brand-text {
+      font-family: var(--sans);
+      font-weight: 600;
+      font-size: 15px;
+      letter-spacing: 0.06em;
+      color: var(--white);
+    }
+
+    .footer__meta {
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--cream-faint);
+    }
+
+    .footer__location {
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--cream-faint);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ========================================
+       DIVIDER
+       ======================================== */
+    .divider {
+      width: 1px;
+      height: 80px;
+      background: linear-gradient(to bottom, transparent, var(--coral-dim), transparent);
+      margin: 0 auto;
+    }
+
+    /* ========================================
+       RESPONSIVE
+       ======================================== */
+    @media (max-width: 768px) {
+      :root {
+        --section-gap: clamp(72px, 10vw, 120px);
+      }
+
+      body {
+        font-size: 16px;
+      }
+
+      .step {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      .step:nth-child(even) {
+        direction: ltr;
+      }
+
+      .service-item {
+        grid-template-columns: 40px 1fr;
+        padding: 36px 0;
+      }
+
+      .cta__form {
+        flex-direction: column;
+        border-radius: 16px;
+      }
+      .cta__submit {
+        border-radius: 0 0 16px 16px;
+        padding: 14px 24px;
+      }
+
+      .hero__scroll-hint {
+        display: none;
+      }
+
+      .terminal__body {
+        padding: 20px 16px;
+      }
+
+      .chat__listing {
+        padding: 12px;
+      }
+
+      .footer__inner {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .nav__cta {
+        display: none;
+      }
+
+      .hero__headline {
+        font-size: clamp(36px, 10vw, 56px);
+      }
+
+      .editorial__pullquote {
+        font-size: clamp(20px, 5vw, 28px);
+        padding-left: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== NAV ==================== -->
+  <nav class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="#" class="nav__logo">
+        <img src="../public/logo.png" alt="AIERT Logo">
+        <span class="nav__logo-text">AIERT</span>
+      </a>
+      <a href="#cta" class="nav__cta">Get in touch</a>
+    </div>
+  </nav>
+
+  <!-- ==================== HERO ==================== -->
+  <section class="hero section">
+    <div class="container container--wide">
+      <div class="hero__label reveal">AI Automation Agency &mdash; Tbilisi</div>
+      <h1 class="hero__headline reveal reveal-delay-1">
+        Automate the boring.<br><em>Close more deals.</em>
+      </h1>
+      <p class="hero__subtext reveal reveal-delay-2">
+        We build AI systems that handle the repetitive work so Georgian businesses can focus on what actually makes money.
+      </p>
+      <a href="#cta" class="hero__cta reveal reveal-delay-3">
+        <span>Start a conversation</span>
+        <span class="hero__cta-arrow">&rarr;</span>
+      </a>
+    </div>
+    <div class="hero__scroll-hint">
+      <span>Scroll</span>
+      <div class="hero__scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ==================== EDITORIAL: THE PROBLEM ==================== -->
+  <section class="section editorial">
+    <div class="container">
+      <div class="editorial__kicker reveal">The opportunity</div>
+      <h2 class="editorial__heading reveal reveal-delay-1">
+        The Georgian market is ready for AI.<br>Most businesses aren't using it yet.
+      </h2>
+      <div class="editorial__body reveal reveal-delay-2">
+        <p>
+          Right now, a real estate agent in Tbilisi spends two to three hours a day on work that adds zero value. Copying listings from ss.ge. Rewriting descriptions in three languages. Pasting data into spreadsheets. Sending the same follow-up messages over and over.
+        </p>
+        <p>
+          It's not that they're inefficient &mdash; <strong>the tools they have don't do enough.</strong> CRMs are built for Silicon Valley startups, not Georgian agencies. Translation services miss real estate terminology. Spreadsheets break when you scale.
+        </p>
+      </div>
+
+      <div class="editorial__pullquote reveal">
+        What if the boring parts of your job just&hellip; happened automatically?
+      </div>
+
+      <div class="editorial__body reveal">
+        <p>
+          That's the question we started with. Not "what AI can we sell?" but "what work can we eliminate?" The answer became our first product &mdash; and the foundation for everything we build.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider reveal"></div>
+
+  <!-- ==================== STATS — EDITORIAL ==================== -->
+  <section class="section">
+    <div class="container" style="text-align: center;">
+      <div class="stats-editorial reveal-stagger">
+        <div class="stat-line reveal-child">
+          <span class="stat-line__number">3 hours</span> <span class="stat-line__dim">of manual work</span>
+        </div>
+        <div class="stat-line reveal-child">
+          <span class="stat-line__dim">reduced to</span> <span class="stat-line__number">3 minutes</span>
+        </div>
+        <div class="stat-line reveal-child" style="margin-top: 8px;">
+          <span class="stat-line__dim">across</span> <span class="stat-line__number">3 languages</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider reveal"></div>
+
+  <!-- ==================== WHAT WE BUILT: BOT DEMO ==================== -->
+  <section class="section demo-section">
+    <div class="container">
+      <div class="editorial__kicker reveal">What we built</div>
+      <h2 class="editorial__heading reveal reveal-delay-1">
+        A Telegram bot that does the work of an assistant&nbsp;&mdash; instantly.
+      </h2>
+      <div class="editorial__body reveal reveal-delay-2" style="margin-bottom: 56px;">
+        <p>
+          Our Real Estate AI Assistant connects to ss.ge, scrapes live listings, generates professional descriptions in Georgian, English, and Russian, and syncs everything to Google Sheets. The agent types a command. The bot does the rest.
+        </p>
+      </div>
+    </div>
+    <div class="container container--wide">
+      <div class="terminal reveal">
+        <div class="terminal__bar">
+          <div class="terminal__dot terminal__dot--red"></div>
+          <div class="terminal__dot terminal__dot--yellow"></div>
+          <div class="terminal__dot terminal__dot--green"></div>
+          <span class="terminal__bar-title">AIERT Bot &mdash; Telegram</span>
+        </div>
+        <div class="terminal__body">
+          <div class="chat">
+            <!-- User message -->
+            <div class="chat__msg">
+              <div class="chat__avatar chat__avatar--user">N</div>
+              <div class="chat__bubble">
+                <div class="chat__name chat__name--user">Nika (Agent)</div>
+                <div class="chat__text">Show me new apartments in Vake, 2+ bedrooms</div>
+              </div>
+            </div>
+
+            <!-- Bot typing -->
+            <div class="chat__msg">
+              <div class="chat__avatar chat__avatar--bot">AI</div>
+              <div class="chat__bubble">
+                <div class="chat__name chat__name--bot">AIERT Bot</div>
+                <div class="chat__text">
+                  Scraping ss.ge for Vake listings&hellip;
+                  <div class="chat__typing">
+                    <div class="chat__typing-dot"></div>
+                    <div class="chat__typing-dot"></div>
+                    <div class="chat__typing-dot"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Bot response -->
+            <div class="chat__msg">
+              <div class="chat__avatar chat__avatar--bot">AI</div>
+              <div class="chat__bubble">
+                <div class="chat__name chat__name--bot">AIERT Bot</div>
+                <div class="chat__text">Found <strong>12 listings</strong> matching your criteria. Here are the top results:</div>
+                <div class="chat__listing">
+                  <div class="chat__listing-title">Renovated 3-bedroom, Vake, Abashidze St.</div>
+                  <div class="chat__listing-meta">85 m&sup2; &middot; 4th floor &middot; Listed 2 hours ago</div>
+                  <div class="chat__listing-price">$142,000</div>
+                </div>
+                <div class="chat__listing" style="margin-top: 8px;">
+                  <div class="chat__listing-title">New build 2-bedroom, Vake, Chavchavadze Ave.</div>
+                  <div class="chat__listing-meta">67 m&sup2; &middot; 8th floor &middot; Listed 5 hours ago</div>
+                  <div class="chat__listing-price">$118,500</div>
+                </div>
+                <div class="chat__status">
+                  <div class="chat__status-dot"></div>
+                  <span>Descriptions generated in KA / EN / RU &middot; Synced to Google Sheets</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider reveal"></div>
+
+  <!-- ==================== SERVICES — EDITORIAL LIST ==================== -->
+  <section class="section">
+    <div class="container container--wide">
+      <div class="editorial__kicker reveal">What we do</div>
+      <h2 class="editorial__heading reveal reveal-delay-1" style="margin-bottom: 56px;">
+        AI systems built for how Georgian businesses actually work.
+      </h2>
+
+      <ul class="services-list reveal-stagger">
+        <li class="service-item reveal-child">
+          <div class="service-item__number"></div>
+          <div class="service-item__content">
+            <div class="service-item__title">Real Estate AI Assistant</div>
+            <div class="service-item__live-badge">
+              <div class="service-item__live-dot"></div>
+              Live
+            </div>
+            <div class="service-item__desc">
+              Telegram bot that scrapes ss.ge listings, generates multilingual descriptions in Georgian, English, and Russian, and syncs to Google Sheets automatically. From search to published listing in under a minute.
+            </div>
+          </div>
+        </li>
+
+        <li class="service-item reveal-child">
+          <div class="service-item__number"></div>
+          <div class="service-item__content">
+            <div class="service-item__title">Lead Qualification Bots</div>
+            <div class="service-item__desc">
+              Automated conversations that qualify incoming leads before they reach your team. Handles initial questions, collects requirements, and routes hot leads directly to agents &mdash; 24/7, in any language.
+            </div>
+          </div>
+        </li>
+
+        <li class="service-item reveal-child">
+          <div class="service-item__number"></div>
+          <div class="service-item__content">
+            <div class="service-item__title">Workflow Automation</div>
+            <div class="service-item__desc">
+              Connect the tools you already use &mdash; spreadsheets, messaging apps, CRMs &mdash; into automated pipelines. No more copying data between tabs or sending the same email forty times.
+            </div>
+          </div>
+        </li>
+
+        <li class="service-item reveal-child">
+          <div class="service-item__number"></div>
+          <div class="service-item__content">
+            <div class="service-item__title">AI Web Presence</div>
+            <div class="service-item__desc">
+              Intelligent websites and landing pages that adapt to visitors, answer questions via chat, and capture leads while you sleep. Built to convert, not just look pretty.
+            </div>
+          </div>
+        </li>
+
+        <li class="service-item reveal-child">
+          <div class="service-item__number"></div>
+          <div class="service-item__content">
+            <div class="service-item__title">Content Automation</div>
+            <div class="service-item__desc">
+              Automated content generation for property listings, social media posts, and marketing materials. Multilingual, on-brand, and consistent &mdash; without hiring a content team.
+            </div>
+          </div>
+        </li>
+
+        <li class="service-item reveal-child">
+          <div class="service-item__number"></div>
+          <div class="service-item__content">
+            <div class="service-item__title">Custom Solutions</div>
+            <div class="service-item__desc">
+              Something specific in mind? We build bespoke AI tools for car dealerships, clinics, hospitality, and any business that runs on repetitive processes. If a human does it the same way every time, we can automate it.
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="divider reveal"></div>
+
+  <!-- ==================== HOW IT WORKS ==================== -->
+  <section class="section">
+    <div class="container container--wide">
+      <div class="editorial__kicker reveal">How it works</div>
+      <h2 class="editorial__heading reveal reveal-delay-1" style="margin-bottom: 72px;">
+        Three conversations. That's all it takes.
+      </h2>
+
+      <div class="steps">
+        <!-- Step 1 -->
+        <div class="step reveal">
+          <div class="step__content">
+            <div class="step__number">01</div>
+            <div class="step__label">Step one</div>
+            <h3 class="step__title">You tell us what slows you down.</h3>
+            <p class="step__desc">
+              We sit down &mdash; in person or on a call &mdash; and map out where your team spends time on repetitive, manual work. No jargon. No pitch deck. Just an honest look at what could be automated.
+            </p>
+          </div>
+          <div class="step__visual">
+            <div class="step__visual-content">
+              <div class="step__visual-emoji">&#128172;</div>
+              <div class="step__visual-text">
+                "We spend 3 hours daily<br>copying listings from ss.ge"
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step reveal">
+          <div class="step__content">
+            <div class="step__number">02</div>
+            <div class="step__label">Step two</div>
+            <h3 class="step__title">We build a working prototype in days, not months.</h3>
+            <p class="step__desc">
+              No six-month timelines. No enterprise contracts. We build a functional version of your AI tool and put it in your hands within one to two weeks. You test it with real work, real data.
+            </p>
+          </div>
+          <div class="step__visual">
+            <div class="step__visual-content">
+              <div class="step__visual-flow">
+                <div class="step__visual-flow-dot active"></div>
+                <div class="step__visual-flow-line"></div>
+                <div class="step__visual-flow-dot active"></div>
+                <div class="step__visual-flow-line"></div>
+                <div class="step__visual-flow-dot active"></div>
+                <div class="step__visual-flow-line"></div>
+                <div class="step__visual-flow-dot"></div>
+              </div>
+              <div class="step__visual-text" style="margin-top: 16px;">
+                Prototype &rarr; Test &rarr; Refine &rarr; Ship
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step reveal">
+          <div class="step__content">
+            <div class="step__number">03</div>
+            <div class="step__label">Step three</div>
+            <h3 class="step__title">It runs. You grow. We improve.</h3>
+            <p class="step__desc">
+              Once deployed, your AI tools run autonomously. We monitor performance, handle updates, and continuously improve based on real usage. As your business grows, the system grows with it.
+            </p>
+          </div>
+          <div class="step__visual">
+            <div class="step__visual-content">
+              <div class="step__visual-emoji">&#9889;</div>
+              <div class="step__visual-text">
+                Always on. Always improving.<br>Zero manual maintenance.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider reveal"></div>
+
+  <!-- ==================== EMAIL CTA ==================== -->
+  <section class="section cta-section" id="cta">
+    <div class="container">
+      <h2 class="cta__heading reveal">
+        Ready to stop<br>doing it <em>manually?</em>
+      </h2>
+      <p class="cta__subtext reveal reveal-delay-1">
+        Drop your email and we'll set up a free 20-minute call to find out what we can automate for your business.
+      </p>
+      <form class="cta__form reveal reveal-delay-2" onsubmit="event.preventDefault();">
+        <input type="email" class="cta__input" placeholder="your@email.com" required>
+        <button type="submit" class="cta__submit">Let's talk</button>
+      </form>
+      <p class="cta__note reveal reveal-delay-3">No spam. No sales deck. Just a conversation.</p>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="footer">
+    <div class="container container--wide">
+      <div class="footer__inner">
+        <div class="footer__brand">
+          <img src="../public/logo.png" alt="AIERT">
+          <span class="footer__brand-text">AIERT</span>
+        </div>
+        <div class="footer__location">
+          <span>Tbilisi, Georgia</span>
+        </div>
+        <div class="footer__meta">
+          &copy; 2025 AIERT. All rights reserved.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== SCROLL REVEAL JS ==================== -->
+  <script>
+    // Minimal scroll reveal — no libraries
+    (function() {
+      const nav = document.getElementById('nav');
+
+      // Nav scroll effect
+      function handleNavScroll() {
+        if (window.scrollY > 60) {
+          nav.classList.add('scrolled');
+        } else {
+          nav.classList.remove('scrolled');
+        }
+      }
+
+      // Reveal elements on scroll
+      function handleReveal() {
+        const reveals = document.querySelectorAll('.reveal, .reveal-stagger, .line-grow');
+        const windowHeight = window.innerHeight;
+
+        reveals.forEach(function(el) {
+          const top = el.getBoundingClientRect().top;
+          const threshold = windowHeight * 0.88;
+
+          if (top < threshold) {
+            el.classList.add('visible');
+          }
+        });
+      }
+
+      // Throttle scroll events
+      let ticking = false;
+      function onScroll() {
+        if (!ticking) {
+          window.requestAnimationFrame(function() {
+            handleNavScroll();
+            handleReveal();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+
+      // Initial check
+      handleNavScroll();
+      handleReveal();
+
+      // Re-check after fonts load
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(handleReveal);
+      }
+    })();
+  </script>
+
+</body>
+</html>
