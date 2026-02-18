@@ -95,7 +95,9 @@ export default function CTA() {
                   >
                     {loading ? (
                       <span className="flex items-center gap-2 justify-center">
-                        <Loader2 size={16} className="animate-spin" />
+                        <span className="inline-flex animate-spin">
+                          <Loader2 size={16} />
+                        </span>
                         Sending...
                       </span>
                     ) : (

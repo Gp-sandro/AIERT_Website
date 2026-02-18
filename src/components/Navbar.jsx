@@ -13,7 +13,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50)
-    window.addEventListener('scroll', onScroll)
+    window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
@@ -62,7 +62,7 @@ export default function Navbar() {
         </button>
 
         {/* Mobile menu */}
-        {open && (
+        {open ? (
           <div className="fixed inset-0 bg-bg/97 backdrop-blur-xl flex flex-col items-center justify-center gap-8 z-50 md:hidden">
             {links.map((l) => (
               <a
@@ -82,7 +82,7 @@ export default function Navbar() {
               Book a call
             </a>
           </div>
-        )}
+        ) : null}
       </div>
     </nav>
   )
