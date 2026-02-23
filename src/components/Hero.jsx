@@ -56,6 +56,7 @@ export default function Hero() {
           the boring.
           <br />
           <span className="text-red">Close more deals.</span>
+          <span className="sr-only"> — AI automation for real estate agents in Tbilisi, Georgia</span>
         </motion.h1>
 
         {/* Subtext */}
