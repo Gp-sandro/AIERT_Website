@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { RefreshCw, Send } from 'lucide-react'
+import { Send } from 'lucide-react'
 
 const chatMessages = [
   {
@@ -35,6 +35,12 @@ const chatMessages = [
     text: 'Perfect. Share the Sheet link with my client.',
     time: '14:34',
   },
+]
+
+const financeFlow = [
+  { label: 'Upload', detail: 'PDF · Excel · CSV' },
+  { label: 'Categorize', detail: 'AI income / expense tagging' },
+  { label: 'Report', detail: 'Summary · Invoice · Tax · Expense' },
 ]
 
 function TelegramChat({ inView }) {
@@ -173,6 +179,65 @@ function SheetsPreview() {
   )
 }
 
+function FinancePreview() {
+  return (
+    <div className="rounded-2xl border border-white/6 bg-linear-to-br from-white/6 to-white/3 p-4 col-span-2">
+      <div className="flex items-start justify-between gap-4 mb-4">
+        <div>
+          <div className="font-(--font-display) text-[12px] font-bold uppercase tracking-widest text-red mb-1.5">
+            Finance bot
+          </div>
+          <div className="font-(--font-display) text-[18px] font-bold text-white leading-tight">
+            Upload. Categorize. Report.
+          </div>
+          <p className="text-[12px] leading-relaxed text-white/45 mt-2 max-w-[34ch]">
+            Parse bank statements, sync structured data to Google Sheets, and deliver EN / GE PDF reports through Telegram.
+          </p>
+        </div>
+        <div className="shrink-0 rounded-xl border border-white/8 bg-black/15 px-3 py-2 text-right">
+          <div className="font-(--font-display) text-[10px] uppercase tracking-widest text-white/35">
+            Delivery
+          </div>
+          <div className="font-(--font-display) text-[13px] font-bold text-white/75">
+            Telegram + PDF
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-3">
+        {financeFlow.map((step) => (
+          <div
+            key={step.label}
+            className="rounded-xl border border-white/6 bg-black/10 px-3 py-3"
+          >
+            <div className="font-(--font-display) text-[11px] font-bold uppercase tracking-widest text-white/35 mb-1.5">
+              {step.label}
+            </div>
+            <div className="font-(--font-display) text-[13px] font-semibold text-white/80 leading-snug">
+              {step.detail}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        <span className="rounded-full border border-white/8 bg-white/4 px-2.5 py-1 font-(--font-display) text-[10px] font-semibold uppercase tracking-wider text-white/55">
+          OpenAI categorization
+        </span>
+        <span className="rounded-full border border-white/8 bg-white/4 px-2.5 py-1 font-(--font-display) text-[10px] font-semibold uppercase tracking-wider text-white/55">
+          Google Sheets sync
+        </span>
+        <span className="rounded-full border border-white/8 bg-white/4 px-2.5 py-1 font-(--font-display) text-[10px] font-semibold uppercase tracking-wider text-white/55">
+          EN / GE reports
+        </span>
+        <span className="rounded-full border border-white/8 bg-white/4 px-2.5 py-1 font-(--font-display) text-[10px] font-semibold uppercase tracking-wider text-white/55">
+          AI anomaly insights
+        </span>
+      </div>
+    </div>
+  )
+}
+
 export default function Product() {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-60px' })
@@ -199,6 +264,10 @@ export default function Product() {
           <h2 className="font-(--font-display) font-extrabold text-[clamp(1.75rem,4vw,2.75rem)] leading-tight tracking-tight text-white max-w-[560px] mx-auto">
             See the full ecosystem in action.
           </h2>
+          <p className="text-sm leading-relaxed text-white/45 max-w-[620px] mx-auto mt-4">
+            From Telegram workflows to Google Sheets sync and EN / GE finance reporting,
+            every automation is built to remove repetitive back-office work.
+          </p>
         </motion.div>
 
         {/* Bento grid */}
@@ -214,15 +283,14 @@ export default function Product() {
           {/* Languages */}
           <div className="rounded-2xl border border-white/6 bg-white/3 flex flex-col items-center justify-center gap-3 py-6 px-4 text-center">
             <div className="flex gap-5 font-(--font-display) text-[22px] font-extrabold text-white/85 tracking-widest">
-              <span>GE</span>
               <span>EN</span>
-              <span>RU</span>
+              <span>GE</span>
             </div>
             <div className="font-(--font-display) text-[13px] font-bold text-white/55">
-              3 Languages
+              Report Languages
             </div>
             <div className="font-(--font-display) text-[11px] text-white/25">
-              KA &middot; EN &middot; RU
+              English &middot; Georgian
             </div>
           </div>
 
@@ -252,20 +320,8 @@ export default function Product() {
             </div>
           </div>
 
-          {/* Auto-sync */}
-          <div className="rounded-2xl border border-white/6 bg-white/3 flex flex-col items-center justify-center py-6 px-4 text-center">
-            <RefreshCw
-              size={26}
-              strokeWidth={1.5}
-              className="text-white/45 mb-2"
-            />
-            <div className="font-(--font-display) text-[13px] font-bold text-white/60">
-              Auto-sync
-            </div>
-            <div className="font-(--font-display) text-[11px] text-white/30 mt-0.5">
-              Real-time data flow
-            </div>
-          </div>
+          {/* Finance flow */}
+          <FinancePreview />
         </motion.div>
       </div>
     </section>

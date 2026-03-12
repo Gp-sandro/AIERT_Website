@@ -9,6 +9,10 @@ const services = [
     badge: 'Live',
   },
   {
+    title: 'Finance Management Bot',
+    desc: 'Telegram bot that parses bank statements from PDF, Excel, or CSV, auto-categorizes transactions with AI, syncs to Google Sheets, and generates PDF reports in English or Georgian.',
+  },
+  {
     title: 'Lead Qualification Bots',
     desc: 'Automated conversations that qualify incoming leads before they reach your team. 24/7, in any language.',
   },
@@ -26,7 +30,7 @@ const services = [
   },
   {
     title: 'Custom Solutions',
-    desc: 'Bespoke AI for dealerships, clinics, hospitality. If a human does it the same way every time, we automate it.',
+    desc: 'Bespoke AI for dealerships, clinics, hospitality, and accounting teams. If a human does it the same way every time, we automate it.',
   },
 ]
 
