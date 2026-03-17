@@ -3,6 +3,18 @@ import { motion, useInView } from 'framer-motion'
 import { Loader2 } from 'lucide-react'
 import { GOOGLE_SCRIPT_URL, FORM_ENABLED } from '../config'
 
+function trackLeadEvent() {
+  if (typeof window === 'undefined' || typeof window.fbq !== 'function') {
+    return
+  }
+
+  window.fbq('track', 'Lead', {
+    content_name: 'Email lead form',
+    content_category: 'Website CTA',
+    source: 'cta',
+  })
+}
+
 export default function CTA() {
   const [email, setEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
@@ -36,6 +48,7 @@ export default function CTA() {
         /* localStorage unavailable */
       }
 
+      trackLeadEvent()
       setSubmitted(true)
     } catch {
       setError('Something went wrong. Please try again.')
